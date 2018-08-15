@@ -1,0 +1,16 @@
+[
+{
+  "modid": "neecats",
+  "name": "Nee Cats",
+  "description": "More cat stuff",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Fastpaws"],
+  "credits": "Nee for inspiration",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
