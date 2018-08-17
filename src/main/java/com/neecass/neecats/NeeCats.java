@@ -1,18 +1,15 @@
 package com.neecass.neecats;
 
-import com.neecass.neecats.items.ItemCatWand;
 import com.neecass.neecats.proxy.CommonProxy;
 import com.neecass.neecats.tabs.CreativeTabNeeCats;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = NeeCats.MODID, name = NeeCats.NAME, version = NeeCats.VERSION)
