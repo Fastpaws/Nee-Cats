@@ -1,16 +1,15 @@
 package com.neecass.neecats;
 
-import com.neecass.neecats.proxy.CommonProxy;
 import com.neecass.neecats.tabs.CreativeTabNeeCats;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
+
 
 @Mod(modid = NeeCats.MODID, name = NeeCats.NAME, version = NeeCats.VERSION)
 public class NeeCats
@@ -24,35 +23,28 @@ public class NeeCats
     @Mod.Instance
     public static NeeCats instance;
 
-    @SidedProxy(clientSide = "com.neecass.neecats.proxy.ClientProxy", serverSide = "com.neecass.neecats.proxy.CommonProxy")
-    public static CommonProxy proxy;
-
-
-    public static CreativeTabNeeCats tabNeeCats;
-
 
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        logger.info("preinit");
 
         tabNeeCats = new CreativeTabNeeCats(CreativeTabs.getNextID(), "NeeCats");
-
-        proxy.preInit(event);
+        NeeCatsPacketHandler.simpleNetworkWrapper.registerMessage(MessageCastCatWand.Handler.class, MessageCastCatWand.class, 1, Side.SERVER);
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        // some example code
-        logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
-
-        proxy.init(event);
+    public void init(FMLInitializationEvent event) {
+        logger.info("init");
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-
-        proxy.postInit(event);
+        logger.info("postinit");
     }
+
+    public static CreativeTabNeeCats tabNeeCats;
+
+
 }
