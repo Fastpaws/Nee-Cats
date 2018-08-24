@@ -31,7 +31,7 @@ public class NeeCats
         logger.info("preinit");
 
         tabNeeCats = new CreativeTabNeeCats(CreativeTabs.getNextID(), "NeeCats");
-        NeeCatsPacketHandler.simpleNetworkWrapper.registerMessage(MessageCastCatWand.Handler.class, MessageCastCatWand.class, 1, Side.SERVER);
+        PacketHandler.simpleNetworkWrapper.registerMessage(MessageCastCatWand.Handler.class, MessageCastCatWand.class, 1, Side.SERVER);
     }
 
     @EventHandler
