@@ -1,5 +1,6 @@
 package com.neecass.neecats;
 
+import com.neecass.neecats.items.ModItems;
 import com.neecass.neecats.tabs.CreativeTabNeeCats;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
@@ -31,6 +32,7 @@ public class NeeCats
         logger.info("preinit");
 
         tabNeeCats = new CreativeTabNeeCats(CreativeTabs.getNextID(), "NeeCats");
+        ModItems.init();
         PacketHandler.simpleNetworkWrapper.registerMessage(MessageCastCatWand.Handler.class, MessageCastCatWand.class, 1, Side.SERVER);
     }
 
