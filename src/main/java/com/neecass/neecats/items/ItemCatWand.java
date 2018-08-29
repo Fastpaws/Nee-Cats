@@ -56,32 +56,23 @@ public class ItemCatWand extends ItemBase {
                 Entity pointedEntity = null;
                 if (entity != null) {
                     if (Minecraft.getMinecraft().world != null) {
-                        Minecraft.getMinecraft().mcProfiler.startSection("pick");
-                        Minecraft.getMinecraft().pointedEntity = null;
-                        double d0 = (double) Minecraft.getMinecraft().playerController.getBlockReachDistance() * 2;
-                        Minecraft.getMinecraft().objectMouseOver = entity.rayTrace(d0, 20);
+
+                        double range = (double) 50;
+                        Minecraft.getMinecraft().objectMouseOver = entity.rayTrace(range, 20);
                         Vec3d vec3d = entity.getPositionEyes(20);
                         boolean flag = false;
-                        int i = 3;
-                        double d1 = d0;
-                        if (Minecraft.getMinecraft().playerController.extendedReach()) {
-                            //d1 = 6.0D;
-                            d1 = 14.0D;
-                            d0 = d1;
-                        } else {
-                            if (d0 > 3.0D) {
-                                flag = true;
-                            }
-                        }
+                        int i = 3;                        double d1 = range;
+
+
                         if (Minecraft.getMinecraft().objectMouseOver != null) {
                             d1 = Minecraft.getMinecraft().objectMouseOver.hitVec.distanceTo(vec3d);
                         }
                         Vec3d vec3d1 = entity.getLook(1.0F);
-                        Vec3d vec3d2 = vec3d.addVector(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
+                        Vec3d vec3d2 = vec3d.addVector(vec3d1.x * range, vec3d1.y * range, vec3d1.z * range);
                         pointedEntity = null;
                         Vec3d vec3d3 = null;
                         float f = 1.0F;
-                        List<Entity> list = Minecraft.getMinecraft().world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
+                        List<Entity> list = Minecraft.getMinecraft().world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * range, vec3d1.y * range, vec3d1.z * range).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>() {
                             public boolean apply(@Nullable Entity p_apply_1_) {
                                 return p_apply_1_ != null && p_apply_1_.canBeCollidedWith();
                             }
@@ -123,7 +114,6 @@ public class ItemCatWand extends ItemBase {
                                 Minecraft.getMinecraft().pointedEntity = pointedEntity;
                             }
                         }
-                        Minecraft.getMinecraft().mcProfiler.endSection();
                     }
                 }
 

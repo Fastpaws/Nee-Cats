@@ -58,7 +58,7 @@ public class MessageCastCatWand implements IMessage {
                     ITextComponent msg = new TextComponentString("no target");
                     if (targetEntity instanceof EntityLivingBase && !targetEntity.isDead) {
                         targetEntity.setFire(1);
-                        msg = new TextComponentString("target: " + targetEntity.getDisplayName());
+                        msg = new TextComponentString("target: " + targetEntity.getName());
 
                         // get all tamed cats nearby
                         AxisAlignedBB aabb = new AxisAlignedBB(serverPlayer.getPosition());
@@ -67,12 +67,12 @@ public class MessageCastCatWand implements IMessage {
 
                         // send them to attack target
                         cats.forEach(cat -> cat.setRevengeTarget((EntityLivingBase) targetEntity));
-                        // cats.forEach(cat->cat.setFire(1)); // animals were harmed in the testing of this mod
+                        cats.forEach(cat->cat.setFire(1)); // animals were harmed in the testing of this mod
 
                     }
-                    serverWorld.getMinecraftServer().sendMessage(msg);
+                    serverPlayer.sendStatusMessage(msg, true);
                 } else {
-                    serverWorld.getMinecraftServer().sendMessage(new TextComponentString("Cheater! You aren't holding a cat wand!"));
+                    serverPlayer.sendStatusMessage(new TextComponentString("Cheater! You aren't holding a cat wand!"), true);
                 }
 
             });
