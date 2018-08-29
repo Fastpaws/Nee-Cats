@@ -48,9 +48,8 @@ public class ItemCatWand extends ItemBase {
             // NOT SNEAKING
             // send all owned tamed cats to attack your target!
 
-            // determine entity ID of target
+            // determine entity ID of target (on client)
             if(worldIn.isRemote) {
-
 
                 //from http://www.minecraftforge.net/forum/topic/60098-112-give-potion-effect-to-looking-entity/
                 Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
@@ -129,7 +128,9 @@ public class ItemCatWand extends ItemBase {
                 }
 
                 // send command to server, with target entity ID
-                simpleNetworkWrapper.sendToServer(new MessageCastCatWand(pointedEntity.getEntityId()));
+                if(pointedEntity != null) {
+                    simpleNetworkWrapper.sendToServer(new MessageCastCatWand(pointedEntity.getEntityId()));
+                }
             }
 
         } else {
