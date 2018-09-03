@@ -2,12 +2,10 @@ package com.neecass.neecats.items;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.neecass.neecats.MessageCastCatWand;
+import com.neecass.neecats.network.MessageCastCatWand;
 import com.neecass.neecats.NeeCats;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -24,7 +22,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.neecass.neecats.PacketHandler.simpleNetworkWrapper;
+import static com.neecass.neecats.network.PacketHandler.simpleNetworkWrapper;
 
 
 public class ItemCatWand extends ItemBase {

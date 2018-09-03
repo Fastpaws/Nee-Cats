@@ -1,5 +1,6 @@
-package com.neecass.neecats;
+package com.neecass.neecats.network;
 
+import com.neecass.neecats.NeeCats;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
