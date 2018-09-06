@@ -2,7 +2,7 @@ package com.neecass.neecats.items;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.neecass.neecats.network.MessageCastCatWand;
+import com.neecass.neecats.network.MessageCatsAttack;
 import com.neecass.neecats.NeeCats;
 
 import net.minecraft.client.Minecraft;
@@ -46,10 +46,10 @@ public class ItemCatWand extends ItemBase {
             // NOT SNEAKING
             // send all owned tamed cats to attack your target!
 
-            // determine entity ID of target (on client)
             if(worldIn.isRemote) {
 
                 //from http://www.minecraftforge.net/forum/topic/60098-112-give-potion-effect-to-looking-entity/
+                //TODO make this less shit
                 Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
                 Entity pointedEntity = null;
                 if (entity != null) {
@@ -114,10 +114,9 @@ public class ItemCatWand extends ItemBase {
                         }
                     }
                 }
-
-                // send command to server, with target entity ID
+                // instruct server to run MessageCatsAttack on target entity
                 if(pointedEntity != null) {
-                    simpleNetworkWrapper.sendToServer(new MessageCastCatWand(pointedEntity.getEntityId()));
+                    simpleNetworkWrapper.sendToServer(new MessageCatsAttack(pointedEntity.getEntityId()));
                 }
             }
 
@@ -125,35 +124,29 @@ public class ItemCatWand extends ItemBase {
 
             // SNEAKING
             // spawn a tamed ocelot (cat)
-
             if(!worldIn.isRemote) {
-
-                // cats dont like spawning in walls
-                java.util.Random rand = new java.util.Random();
-                double posX, posY, posZ;
-                boolean validSpawn = false;
-                int attempts = 0;
-                do {
-                    posX = playerIn.posX + rand.nextInt(5) - 2;
-                    posY = playerIn.posY;
-                    posZ = playerIn.posZ + rand.nextInt(5) - 2;
-                    validSpawn = worldIn.isAirBlock(new BlockPos(posX, posY, posZ));
-                    attempts++;
-                } while (!validSpawn && attempts < 10);
-
-                if (validSpawn) {
-                    EntityOcelot ocelot = new EntityOcelot(worldIn);
-                    ocelot.setLocationAndAngles(posX, posY, posZ, playerIn.getPitchYaw().x, 0F);
-                    ocelot.spawnExplosionParticle();
-                    ocelot.enablePersistence();
-                    ocelot.setTamed(true);
-                    ocelot.setTamedBy(playerIn);
-                    worldIn.spawnEntity(ocelot);
+                // spawn on block player is looking at
+                RayTraceResult ray = playerIn.rayTrace(5F, 1F);
+                if (ray.typeOfHit == RayTraceResult.Type.BLOCK) {
+                    BlockPos spawnPos = ray.getBlockPos();
+                    spawnTamedOcelot(playerIn, spawnPos.up());
                 }
             }
         }
 
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-
     }
+
+
+    public void spawnTamedOcelot(EntityPlayer player, BlockPos pos) {
+        if(!player.world.isRemote && !player.world.getBlockState(pos).causesSuffocation()) {
+            EntityOcelot ocelot = new EntityOcelot(player.world);
+            ocelot.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), player.cameraYaw - 180F, 0F);
+            ocelot.setTamedBy(player);
+            ocelot.setTameSkin(itemRand.nextInt(3)+1);
+            player.world.spawnEntity(ocelot);
+            ocelot.spawnExplosionParticle();
+        }
+    }
+
 }
