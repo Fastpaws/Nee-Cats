@@ -126,10 +126,10 @@ public class ItemCatWand extends ItemBase {
             // spawn a tamed ocelot (cat)
             if(!worldIn.isRemote) {
                 // spawn on block player is looking at
-                RayTraceResult ray = playerIn.rayTrace(5F, 1F);
+                RayTraceResult ray = playerIn.rayTrace(10F, 1F);
                 if (ray.typeOfHit == RayTraceResult.Type.BLOCK) {
-                    BlockPos spawnPos = ray.getBlockPos();
-                    spawnTamedOcelot(playerIn, spawnPos.up());
+                    BlockPos spawnPos = ray.getBlockPos().offset(ray.sideHit);
+                    spawnTamedOcelot(playerIn, spawnPos);
                 }
             }
         }
@@ -141,7 +141,7 @@ public class ItemCatWand extends ItemBase {
     public void spawnTamedOcelot(EntityPlayer player, BlockPos pos) {
         if(!player.world.isRemote && !player.world.getBlockState(pos).causesSuffocation()) {
             EntityOcelot ocelot = new EntityOcelot(player.world);
-            ocelot.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), player.cameraYaw - 180F, 0F);
+            ocelot.setLocationAndAngles(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, 1 - player.rotationYaw, 0F);
             ocelot.setTamedBy(player);
             ocelot.setTameSkin(itemRand.nextInt(3)+1);
             player.world.spawnEntity(ocelot);

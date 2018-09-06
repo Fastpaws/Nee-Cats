@@ -72,7 +72,7 @@ public class MessageCatsAttack implements IMessage {
                     return;
                 }
 
-                if (targetEntity.getTeam() == serverPlayer.getTeam()) {
+                if (targetEntity.isOnSameTeam(serverPlayer)) {
                     serverPlayer.sendStatusMessage(new TextComponentString("Target is on your team."), false);
                     return;
                 }
